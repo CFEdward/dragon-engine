@@ -159,8 +159,8 @@ public class NewProject : ViewModelBase
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
-            // TODO: log error
-            return string.Empty;
+            Logger.Log(MessageType.Error, $"Failed to create {ProjectName}");
+            throw;
         }
     }
     
@@ -187,7 +187,8 @@ public class NewProject : ViewModelBase
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            // TODO: log error
+            Logger.Log(MessageType.Error, $"Failed to read project templates");
+            throw;
         }
     }
 }
