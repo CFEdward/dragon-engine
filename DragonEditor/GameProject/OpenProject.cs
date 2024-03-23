@@ -29,7 +29,7 @@ public class ProjectDataList
     public List<ProjectData> Projects { get; set; }
 }
 
-public class OpenProject
+class OpenProject
 {
     private static readonly string _applicationDataPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\DragonEditor\";
     private static readonly string _projectDataPath;

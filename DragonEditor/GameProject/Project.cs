@@ -9,7 +9,7 @@ using DragonEditor.Utilities;
 namespace DragonEditor.GameProject;
 
 [DataContract(Name = "Game")]
-public class Project : ViewModelBase
+class Project : ViewModelBase
 {
     public static string Extension { get; } = ".dragon";
 
@@ -97,7 +97,8 @@ public class Project : ViewModelBase
             UndoRedo.Add(new UndoRedoAction(
                 () => RemoveScene(newScene),
                 () => _scenes.Insert(sceneIndex, newScene),
-                $"Add {newScene.Name}"));
+                $"Add {newScene.Name}")
+            );
         });
 
         RemoveSceneCommand = new RelayCommands<Scene>(x =>
@@ -108,7 +109,8 @@ public class Project : ViewModelBase
             UndoRedo.Add(new UndoRedoAction(
                 () => _scenes.Insert(sceneIndex, x),
                 () => RemoveScene(x),
-                $"Remove {x.Name}"));
+                $"Remove {x.Name}")
+            );
         }, x => !x.IsActive);
 
         UndoCommand = new RelayCommands<object>(x => UndoRedo.Undo());

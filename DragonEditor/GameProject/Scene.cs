@@ -8,7 +8,7 @@ using DragonEditor.Utilities;
 namespace DragonEditor.GameProject;
 
 [DataContract]
-public class Scene : ViewModelBase
+class Scene : ViewModelBase
 {
     private string _name;
     [DataMember]
@@ -79,7 +79,8 @@ public class Scene : ViewModelBase
             Project.UndoRedo.Add(new UndoRedoAction(
                 () => RemoveGameEntity(x),
                 () => _gameEntities.Insert(entityIndex, x),
-                $"Add {x.Name} to {Name}"));
+                $"Add {x.Name} to {Name}")
+            );
         });
 
         RemoveGameEntityCommand = new RelayCommands<GameEntity>(x =>
@@ -90,7 +91,8 @@ public class Scene : ViewModelBase
             Project.UndoRedo.Add(new UndoRedoAction(
                 () => _gameEntities.Insert(entityIndex, x),
                 () => RemoveGameEntity(x),
-                $"Remove {x.Name}"));
+                $"Remove {x.Name}")
+            );
         });
     }
 
