@@ -4,6 +4,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonEditor", "DragonEdito
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{6EC8C6F3-9E4E-4B33-81B4-B8CE362BB870}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineTest", "EngineTest\EngineTest.vcxproj", "{4575F0C3-F56F-4545-BEC6-1FF91BB1F98B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6EC8C6F3-9E4E-4B33-81B4-B8CE362BB870} = {6EC8C6F3-9E4E-4B33-81B4-B8CE362BB870}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineDLL", "EngineDLL\EngineDLL.vcxproj", "{5ADE21BB-9343-4528-9698-790B76854064}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -18,5 +25,15 @@ Global
 		{8DAE9D8B-B40A-4567-BADE-3AB1E91F3035}.Debug|x64.Build.0 = Debug|Any CPU
 		{8DAE9D8B-B40A-4567-BADE-3AB1E91F3035}.Release|x64.ActiveCfg = Release|Any CPU
 		{8DAE9D8B-B40A-4567-BADE-3AB1E91F3035}.Release|x64.Build.0 = Release|Any CPU
+		{4575F0C3-F56F-4545-BEC6-1FF91BB1F98B}.Debug|x64.ActiveCfg = Debug|x64
+		{4575F0C3-F56F-4545-BEC6-1FF91BB1F98B}.Debug|x64.Build.0 = Debug|x64
+		{4575F0C3-F56F-4545-BEC6-1FF91BB1F98B}.Release|x64.ActiveCfg = Release|x64
+		{4575F0C3-F56F-4545-BEC6-1FF91BB1F98B}.Release|x64.Build.0 = Release|x64
+		{5ADE21BB-9343-4528-9698-790B76854064}.Debug|x64.ActiveCfg = Debug|x64
+		{5ADE21BB-9343-4528-9698-790B76854064}.Debug|x64.Build.0 = Debug|x64
+		{5ADE21BB-9343-4528-9698-790B76854064}.Release|x64.ActiveCfg = Release|x64
+		{5ADE21BB-9343-4528-9698-790B76854064}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
