@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DragonEditor": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

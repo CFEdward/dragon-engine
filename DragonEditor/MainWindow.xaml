@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:DragonEditor"
         xmlns:editors="clr-namespace:DragonEditor.Editors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Dragon Editor" Height="1080" Width="1920">
+        Title="Dragon Editor" Height="1080" Width="1920"
+        Style="{StaticResource DragonWindowStyle}">
+    
     <Grid>
         <editors:WorldEditorView />
     </Grid>
