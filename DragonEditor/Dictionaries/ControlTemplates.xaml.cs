@@ -43,7 +43,7 @@ public partial class ControlTemplates : ResourceDictionary
         var window = (Window)((FrameworkElement)sender).TemplatedParent;
         window.WindowState = (window.WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
     }
-
+    
     private void OnMinimize_Button_Click(object sender, RoutedEventArgs e)
     {
         var window = (Window)((FrameworkElement)sender).TemplatedParent;

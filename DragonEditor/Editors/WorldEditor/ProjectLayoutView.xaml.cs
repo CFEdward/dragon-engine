@@ -46,5 +46,7 @@ public partial class ProjectLayoutView : UserControl
             msEntity = new MSGameEntity(newSelection);
         }
         GameEntityView.Instance.DataContext = msEntity;
+
+        if (newSelection.Any()) listBox.Focus();
     }
 }
