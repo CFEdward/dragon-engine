@@ -4,8 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:DragonEditor.Editors"
+             xmlns:vm="clr-namespace:DragonEditor.Components"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:MSTransform}">
+            <local:TransformView />
+        </DataTemplate>
+    </UserControl.Resources>
+    
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <ScrollViewer.Style>
             <Style TargetType="ScrollViewer">
@@ -18,13 +26,12 @@
         </ScrollViewer.Style>
         <StackPanel>
             <Border Height="32">
-                <ToggleButton x:Name="addComponent" VerticalAlignment="Center" HorizontalAlignment="Left"
-                              Margin="5, 0, 0, 0">
+                <ToggleButton x:Name="addComponent" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5, 0, 0, 0">
                     <ToggleButton.Content>
                         <DockPanel>
                             <TextBlock Text="Add Component" Margin="5, 0" />
-                            <Path Margin="3, 0, 2, 0" Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
-                                  HorizontalAlignment="Center" Fill="Black" VerticalAlignment="Center" />
+                            <Path Margin="3, 0, 2, 0" Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z" HorizontalAlignment="Center" Fill="Black"
+                                  VerticalAlignment="Center" />
                         </DockPanel>
                     </ToggleButton.Content>
                 </ToggleButton>
@@ -36,13 +43,11 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Name" Grid.Column="0" Margin="5, 0, 0, 0" />
-                <TextBox Text="{Binding Name, UpdateSourceTrigger=Explicit}" Grid.Column="1"
-                         GotKeyboardFocus="OnName_TextBox_GotKeyboardFocus"
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=Explicit}" Grid.Column="1" GotKeyboardFocus="OnName_TextBox_GotKeyboardFocus"
                          LostKeyboardFocus="OnName_TextBox_LostKeyboardFocus" />
                 <StackPanel Orientation="Horizontal" Grid.Column="2">
                     <TextBlock Text="Enabled" Margin="5, 0, 0, 0" />
-                    <CheckBox IsChecked="{Binding IsEnabled, Mode=OneWay}" Margin="5, 0"
-                              Click="OnIsEnabled_CheckBox_Click" VerticalAlignment="Center" />
+                    <CheckBox IsChecked="{Binding IsEnabled, Mode=OneWay}" Margin="5, 0" Click="OnIsEnabled_CheckBox_Click" VerticalAlignment="Center" />
                 </StackPanel>
             </Grid>
             <ItemsControl ItemsSource="{Binding Components}">
