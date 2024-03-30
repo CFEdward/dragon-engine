@@ -64,14 +64,14 @@ script_ptr create_script(game_entity::entity entity)
     class TYPE;                                                 \
     namespace {                                                 \
                                                                 \
-    const u8 _reg##TYPE                                         \
+    const u8 _reg_##TYPE                                        \
     {                                                           \
         dragon::script::detail::register_script(                \
             dragon::script::detail::string_hash()(#TYPE),       \
             &dragon::script::detail::create_script<TYPE>)       \
     };                                                          \
                                                                 \
-    }
+    }   // anonymous namespace
 
 }   // namespace detail
 }   // namespace script
