@@ -10,7 +10,7 @@ namespace DragonEditor;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public static string DragonPath { get; private set; } = @"G:\repositories\Dragon Engine\Dragon";
+    public static string DragonPath { get; private set; }
 
     public MainWindow()
     {

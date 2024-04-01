@@ -62,7 +62,6 @@ class Scene : ViewModelBase
         {
             _gameEntities.Insert(index, entity);
         }
-        _gameEntities.Add(entity);
     }
     
     private void RemoveGameEntity(GameEntity entity)
