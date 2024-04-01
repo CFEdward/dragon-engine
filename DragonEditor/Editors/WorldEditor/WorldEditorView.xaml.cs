@@ -1,7 +1,6 @@
-using System.Collections.Specialized;
+using DragonEditor.GameDev;
 using System.Windows;
 using System.Windows.Controls;
-using DragonEditor.GameProject;
 
 namespace DragonEditor.Editors;
 
@@ -17,5 +16,10 @@ public partial class WorldEditorView : UserControl
     {
         Loaded -= OnWorldEditorViewLoaded;
         Focus();
+    }
+
+    private void OnNewScript_Button_Click(object sender, RoutedEventArgs e)
+    {
+        new NewScriptDialog().ShowDialog();
     }
 }
