@@ -1,12 +1,11 @@
 ﻿using System.Windows;
 
-namespace DragonEditor.Utilities.Controls
+namespace DragonEditor.Utilities.Controls;
+
+class ScalarBox : NumberBox
 {
-    class ScalarBox : NumberBox
+    static ScalarBox()
     {
-        static ScalarBox()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ScalarBox), new FrameworkPropertyMetadata(typeof(ScalarBox)));
-        }
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(ScalarBox), new FrameworkPropertyMetadata(typeof(ScalarBox)));
     }
 }

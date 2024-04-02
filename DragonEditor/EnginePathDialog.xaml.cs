@@ -1,45 +1,44 @@
 ﻿using System.IO;
 using System.Windows;
 
-namespace DragonEditor
-{
-    /// <summary>
-    /// Interaction logic for EnginePathDialog.xaml
-    /// </summary>
-    public partial class EnginePathDialog : Window
-    {
-        public string DragonPath { get; private set; }
+namespace DragonEditor;
 
-        public EnginePathDialog()
+/// <summary>
+/// Interaction logic for EnginePathDialog.xaml
+/// </summary>
+public partial class EnginePathDialog : Window
+{
+    public string DragonPath { get; private set; }
+
+    public EnginePathDialog()
+    {
+        InitializeComponent();
+        Owner = Application.Current.MainWindow;
+    }
+
+    private void OnOk_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var path = pathTextBox.Text.Trim();
+        messageTextBlock.Text = string.Empty;
+        if (string.IsNullOrEmpty(path))
         {
-            InitializeComponent();
-            Owner = Application.Current.MainWindow;
+            messageTextBlock.Text = "Invalid path.";
+        }
+        else if (path.IndexOfAny(Path.GetInvalidPathChars()) != -1)
+        {
+            messageTextBlock.Text = "Invalid character(s) used in path.";
+        }
+        else if (!Directory.Exists(Path.Combine(path, @"Engine\EngineAPI\")))
+        {
+            messageTextBlock.Text = "Unable to find the engine at the specified location.";
         }
 
-        private void OnOk_Button_Click(object sender, RoutedEventArgs e)
+        if (string.IsNullOrEmpty(messageTextBlock.Text))
         {
-            var path = pathTextBox.Text.Trim();
-            messageTextBlock.Text = string.Empty;
-            if (string.IsNullOrEmpty(path))
-            {
-                messageTextBlock.Text = "Invalid path.";
-            }
-            else if (path.IndexOfAny(Path.GetInvalidPathChars()) != -1)
-            {
-                messageTextBlock.Text = "Invalid character(s) used in path.";
-            }
-            else if (!Directory.Exists(Path.Combine(path, @"Engine\EngineAPI\")))
-            {
-                messageTextBlock.Text = "Unable to find the engine at the specified location.";
-            }
-
-            if (string.IsNullOrEmpty(messageTextBlock.Text))
-            {
-                if (!Path.EndsInDirectorySeparator(path)) path += @"\";
-                DragonPath = path;
-                DialogResult = true;
-                Close();
-            }
+            if (!Path.EndsInDirectorySeparator(path)) path += @"\";
+            DragonPath = path;
+            DialogResult = true;
+            Close();
         }
     }
 }
