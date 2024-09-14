@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Input;
+using DragonEditor.Components;
 using DragonEditor.DllWrappers;
 using DragonEditor.GameDev;
 using DragonEditor.Utilities;
@@ -158,6 +159,7 @@ class Project : ViewModelBase
 
     public void Unload()
     {
+        UnloadGameCodeDll();
         VisualStudio.CloseVisualStudio();
         UndoRedo.Reset();
     }
@@ -194,6 +196,7 @@ class Project : ViewModelBase
         if (File.Exists(dll) && EngineAPI.LoadGameCodeDll(dll) != 0)
         {
             AvailableScripts = EngineAPI.GetScriptNames();
+            ActiveScene.GameEntities.Where(x => x.GetComponent<Script>() != null).ToList().ForEach(x => x.IsActive = true);
             Logger.Log(MessageType.Info, "Game code DLL loaded successfully");
         }
         else
@@ -204,6 +207,7 @@ class Project : ViewModelBase
 
     private void UnloadGameCodeDll()
     {
+        ActiveScene.GameEntities.Where(x => x.GetComponent<Script>() != null).ToList().ForEach(x => x.IsActive = false);
         if (EngineAPI.UnloadGameCodeDll() != 0)
         {
             Logger.Log(MessageType.Info, "Game code DLL unloaded");
@@ -220,6 +224,7 @@ class Project : ViewModelBase
             OnPropertyChanged(nameof(Scenes));
         }
         ActiveScene = Scenes.FirstOrDefault(x => x.IsActive);
+        Debug.Assert(ActiveScene != null);
 
         await BuildGameCodeDll(false);
 

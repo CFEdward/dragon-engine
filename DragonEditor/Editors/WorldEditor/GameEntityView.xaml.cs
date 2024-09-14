@@ -1,12 +1,27 @@
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using DragonEditor.Components;
 using DragonEditor.GameProject;
 using DragonEditor.Utilities;
 
 namespace DragonEditor.Editors;
+
+public class NullableBoolToBoolConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return value is bool b && b == true;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return value is bool b && b == true;
+    }
+}
 
 public partial class GameEntityView : UserControl
 {

@@ -152,18 +152,20 @@ static class VisualStudio
     public static bool IsDebugging()
     {
         bool result = false;
+        bool tryAgain = true;
 
-        for (int i = 0; i < 3; ++i)
+        for (int i = 0; i < 3 && tryAgain; ++i)
         {
             try
             {
                 result = _vsInstance != null &&
                     (_vsInstance.Debugger.CurrentProgram != null || _vsInstance.Debugger.CurrentMode == EnvDTE.dbgDebugMode.dbgRunMode);
+                tryAgain = false;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                if (!result) Thread.Sleep(1000);
+                Thread.Sleep(1000);
             }
         }
 
@@ -181,7 +183,7 @@ static class VisualStudio
         OpenVisualStudio(project.Solution);
         BuildDone = BuildSucceeded = false;
 
-        for (int i = 0; i < 3; ++i)
+        for (int i = 0; i < 3 && !BuildDone; ++i)
         {
             try
             {
