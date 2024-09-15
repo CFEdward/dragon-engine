@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System.IO;
+using System.Runtime.Serialization;
+using System.Text;
 
 namespace DragonEditor.Components;
 
@@ -21,6 +23,13 @@ class Script : Component
     }
 
     public override IMSComponent GetMultiselectionComponent(MSEntity msEntity) => new MSScript(msEntity);
+
+    public override void WriteToBinary(BinaryWriter bw)
+    {
+        var nameBytes = Encoding.UTF8.GetBytes(Name);
+        bw.Write(nameBytes.Length);
+        bw.Write(nameBytes);
+    }
 
     public Script(GameEntity owner) : base(owner) { }
 }
