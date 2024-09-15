@@ -6,6 +6,9 @@
 #if !defined(SHIPPING)
 
 #include <fstream>
+#include <filesystem>
+#include <Windows.h>
+
 namespace dragon::content {
 namespace {
 
@@ -72,6 +75,12 @@ static_assert(_countof(component_readers) == component_type::count);
 
 bool load_game()
 {
+	// set the working directory to the executable path
+	wchar_t path[MAX_PATH];
+	const u32 length{ GetModuleFileName(0, &path[0], MAX_PATH) };
+	if (!length || GetLastError() == ERROR_INSUFFICIENT_BUFFER) return false;
+	std::filesystem::path p{ path };
+	SetCurrentDirectory(p.parent_path().wstring().c_str());
 
 	// read game.bin and create entities.
 	std::ifstream game("game.bin", std::ios::in | std::ios::binary);
@@ -87,7 +96,7 @@ bool load_game()
 		game_entity::entity_info info{};
 		const u32 entity_type{ *at }; at += su32;
 		const u32 num_components{ *at }; at += su32;
-		if (num_components) return false;
+		if (!num_components) return false;
 
 		for (u32 component_index{ 0 }; component_index < num_components; ++component_index)
 		{
