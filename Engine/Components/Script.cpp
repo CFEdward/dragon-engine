@@ -38,7 +38,7 @@ bool exists(script_id id)
 	const id::id_type index{ id::index(id) };
 	assert(index < generations.size() && id_mapping[index] < entity_scripts.size());
 	assert(generations[index] == id::generation(id));
-	return (generations[index] == id::generation(id) && entity_scripts[id_mapping[index]] && entity_scripts[id_mapping[index]]->is_valid());
+	return generations[index] == id::generation(id) && entity_scripts[id_mapping[index]] && entity_scripts[id_mapping[index]]->is_valid();
 }
 
 }	// anonymous namespace
@@ -95,7 +95,7 @@ component create(init_info info, game_entity::entity entity)
 	entity_scripts.emplace_back(info.script_creator(entity));
 	assert(entity_scripts.back()->get_id() == entity.get_id());
 	id_mapping[id::index(id)] = index;
-	return component{};
+	return component{ id };
 }
 
 void remove(component c)

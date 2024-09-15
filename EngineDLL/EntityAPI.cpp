@@ -51,7 +51,7 @@ struct game_entity_descriptor
 
 game_entity::entity entity_from_id(id::id_type id)
 {
-    return game_entity::entity{ game_entity::entity_id(id) };
+    return game_entity::entity{ game_entity::entity_id{ id } };
 }
 
 }   // anonymous namespace
@@ -66,7 +66,7 @@ id::id_type CreateGameEntity(game_entity_descriptor* e)
     game_entity::entity_info entity_info
     {
         &transform_info,
-        &script_info
+        &script_info,
     };
     return game_entity::create(entity_info).get_id();
 }
