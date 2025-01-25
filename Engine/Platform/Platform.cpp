@@ -147,13 +147,11 @@ void set_window_fullscreen(window_id id, bool is_fullscreen)
             GetWindowRect(info.hwnd, &rect);
             info.top_left.x = rect.left;
             info.top_left.y = rect.top;
-            info.style = 0;
-            SetWindowLongPtr(info.hwnd, GWL_STYLE, info.style);
+            SetWindowLongPtr(info.hwnd, GWL_STYLE, 0);
             ShowWindow(info.hwnd, SW_MAXIMIZE);
         }
         else
         {
-            info.style = WS_VISIBLE | WS_OVERLAPPEDWINDOW;
             SetWindowLongPtr(info.hwnd, GWL_STYLE, info.style);
             resize_window(info, info.client_area);
             ShowWindow(info.hwnd, SW_SHOWNORMAL);
@@ -180,7 +178,7 @@ void set_window_caption(window_id id, const wchar_t* caption)
 math::u32v4 get_window_size(window_id id)
 {
     window_info& info{ get_from_id(id) };
-    RECT area{ info.is_fullscreen ? info.fullscreen_area : info.client_area };
+    RECT& area{ info.is_fullscreen ? info.fullscreen_area : info.client_area };
 
     return { (u32)area.left, (u32)area.top, (u32)area.right, (u32)area.bottom };
 }
@@ -219,6 +217,7 @@ window create_window(const window_init_info* const init_info /* = nullptr */)
     window_info info{};
     info.client_area.right = (init_info && init_info->width) ? info.client_area.left + init_info->width : info.client_area.right;
     info.client_area.bottom = (init_info && init_info->height) ? info.client_area.top + init_info->height : info.client_area.bottom;
+    info.style |= parent ? WS_CHILD : WS_OVERLAPPEDWINDOW;
 
     RECT rect{ info.client_area };
 
@@ -230,8 +229,6 @@ window create_window(const window_init_info* const init_info /* = nullptr */)
     const s32 top{ init_info ? init_info->top : info.top_left.y };
     const s32 width{ rect.right - rect.left };
     const s32 height{ rect.bottom - rect.top };
-
-    info.style |= parent ? WS_CHILD : WS_OVERLAPPEDWINDOW;
 
 	// Create an instance of the window class
     info.hwnd = CreateWindowEx(
