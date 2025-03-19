@@ -1,6 +1,7 @@
 ﻿using DragonEditor.DllWrappers;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace DragonEditor.Utilities
@@ -10,13 +11,30 @@ namespace DragonEditor.Utilities
         private readonly int _width = 800;
         private readonly int _height = 600;
         private IntPtr _renderWindowHandle = IntPtr.Zero;
+        private DelayEventTimer _resizeTimer;
 
         public int SurfaceId { get; private set; } = ID.INVALID_ID;
+
+        public void Resize()
+        {
+            _resizeTimer.Trigger();
+        }
+
+        private void Resize(object sender, DelayEventTimerArgs e)
+        {
+            e.RepeatEvent = (Mouse.LeftButton == MouseButtonState.Pressed);
+            if (!e.RepeatEvent)
+            {
+                Logger.Log(MessageType.Info, "Resized");
+            }
+        }
 
         public RenderSurfaceHost(double width, double height)
         {
             _width = (int)width;
-            _height = (int)height;  
+            _height = (int)height;
+            _resizeTimer = new DelayEventTimer(TimeSpan.FromMilliseconds(250.0));
+            _resizeTimer.Triggered += Resize;
         }
 
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
