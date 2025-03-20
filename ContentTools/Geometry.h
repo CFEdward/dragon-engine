@@ -28,7 +28,7 @@ struct lod_group
 struct scene
 {
 	std::string name;
-	utl::vector<lod_group> lod_group;
+	utl::vector<lod_group> lod_groups;
 };
 
 struct geometry_import_settings
