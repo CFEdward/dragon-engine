@@ -49,31 +49,31 @@ struct mesh
 
 struct lod_group
 {
-	std::string name;
-	utl::vector<mesh> meshes;
+	std::string			name;
+	utl::vector<mesh>	meshes;
 };
 
 struct scene
 {
-	std::string name;
-	utl::vector<lod_group> lod_groups;
+	std::string				name;
+	utl::vector<lod_group>	lod_groups;
 };
 
 struct geometry_import_settings
 {
-	f32 smoothing_angle;
-	u8 calculate_normals;
-	u8 calculate_tangents;
-	u8 reverse_handedness;
-	u8 import_embedded_textures;
-	u8 import_animations;
+	f32	smoothing_angle;
+	u8	calculate_normals;
+	u8	calculate_tangents;
+	u8	reverse_handedness;
+	u8	import_embedded_textures;
+	u8	import_animations;
 };
 
 struct scene_data
 {
-	u8* buffer;
-	u32 buffer_size;
-	geometry_import_settings settings;
+	u8*							buffer;
+	u32							buffer_size;
+	geometry_import_settings	settings;
 };
 
 void process_scene(scene& scene, const geometry_import_settings& settings);
