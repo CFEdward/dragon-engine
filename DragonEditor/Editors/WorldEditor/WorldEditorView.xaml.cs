@@ -1,3 +1,4 @@
+using DragonEditor.Content;
 using DragonEditor.GameDev;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,5 +22,11 @@ public partial class WorldEditorView : UserControl
     private void OnNewScript_Button_Click(object sender, RoutedEventArgs e)
     {
         new NewScriptDialog().ShowDialog();
+    }
+
+    private void OnCreatePrimitiveMesh_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new PrimitiveMeshDialog();
+        dlg.ShowDialog();
     }
 }
