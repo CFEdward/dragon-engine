@@ -1,5 +1,6 @@
 ﻿using DragonEditor.ContentToolsAPIStructs;
 using DragonEditor.DllWrappers;
+using DragonEditor.Editors;
 using DragonEditor.Utilities.Controls;
 using System.Windows;
 using System.Windows.Controls;
@@ -60,6 +61,7 @@ namespace DragonEditor.Content
 
             var geometry = new Geometry();
             ContentToolsAPI.CreatePrimitiveMesh(geometry, info);
+            (DataContext as GeometryEditor).SetAsset(geometry);
         }
 
         public PrimitiveMeshDialog()
