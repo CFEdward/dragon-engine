@@ -10,7 +10,7 @@ using namespace DirectX;
 void recalculate_normals(mesh& m)
 {
 	const u32 num_indices{ (u32)m.raw_indices.size() };
-	m.normals.reserve(num_indices);
+	m.normals.resize(num_indices);
 
 	for (u32 i{ 0 }; i < num_indices; ++i)
 	{
@@ -104,7 +104,7 @@ void process_uvs(mesh& m)
 	for (u32 i{ 0 }; i < num_indices; ++i)
 		idx_ref[old_indices[i]].emplace_back(i);
 
-	for (u32 i{ 0 }; i < num_indices; ++i)
+	for (u32 i{ 0 }; i < num_vertices; ++i)
 	{
 		auto& refs{ idx_ref[i] };
 		u32 num_refs{ (u32)refs.size() };
@@ -176,17 +176,16 @@ u64 get_mesh_size(const mesh& m)
 	const u64 index_size{ (num_vertices < (1 << 16)) ? sizeof(u16) : sizeof(u32) };
 	const u64 index_buffer_size{ index_size * m.indices.size() };
 	constexpr u64 su32{ sizeof(u32) };
-	const u64 size
-	{
-		su32 + m.name.size() +	// mesh name length and room for mesh name string
-		su32 +					// lod id
-		su32 +					// vertex size
-		su32 +					// number of vertices
-		su32 +					// index size (16 bit or 32 bit)
-		su32 +					// number of indices
-		sizeof(f32) +			// LOD threshold
-		vertex_buffer_size +	// room for vertices
-		index_buffer_size		// room for indices
+	const u64 size{
+		su32 + m.name.size() +		// mesh name length and room for mesh name string
+		su32 +						// lod id
+		su32 +						// vertex size
+		su32 +						// number of vertices
+		su32 +						// index size (16 bit or 32 bit)
+		su32 +						// number of indices
+		sizeof(f32) +				// LOD threshold
+		vertex_buffer_size +		// room for vertices
+		index_buffer_size			// room for indices
 	};
 
 	return size;

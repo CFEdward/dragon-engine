@@ -77,6 +77,7 @@ namespace DragonEditor.Editors
                 if (_cameraPosition != value)
                 {
                     _cameraPosition = value;
+                    CameraDirection = new Vector3D(-value.X, -value.Y, -value.Z);
                     OnPropertyChanged(nameof(OffsetCameraPosition));
                     OnPropertyChanged(nameof(CameraPosition));
                 }
@@ -115,7 +116,7 @@ namespace DragonEditor.Editors
         }
 
         private Color _skyLight = (Color)ColorConverter.ConvertFromString("#ff111b30");
-        public Color skyLight
+        public Color SkyLight
         {
             get => _skyLight;
             set
@@ -123,13 +124,13 @@ namespace DragonEditor.Editors
                 if (_skyLight != value)
                 {
                     _skyLight = value;
-                    OnPropertyChanged(nameof(skyLight));
+                    OnPropertyChanged(nameof(SkyLight));
                 }
             }
         }
 
         private Color _groundLight = (Color)ColorConverter.ConvertFromString("#ff3f2f1e");
-        public Color groundLight
+        public Color GroundLight
         {
             get => _groundLight;
             set
@@ -137,13 +138,13 @@ namespace DragonEditor.Editors
                 if (_groundLight != value)
                 {
                     _groundLight = value;
-                    OnPropertyChanged(nameof(groundLight));
+                    OnPropertyChanged(nameof(GroundLight));
                 }
             }
         }
 
         private Color _ambientLight = (Color)ColorConverter.ConvertFromString("#ff3b3b3b");
-        public Color ambientLight
+        public Color AmbientLight
         {
             get => _ambientLight;
             set
@@ -151,7 +152,7 @@ namespace DragonEditor.Editors
                 if (_ambientLight != value)
                 {
                     _ambientLight = value;
-                    OnPropertyChanged(nameof(ambientLight));
+                    OnPropertyChanged(nameof(AmbientLight));
                 }
             }
         }

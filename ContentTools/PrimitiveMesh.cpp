@@ -38,7 +38,7 @@ struct axis
 };
 
 mesh create_plane(const primitive_init_info& info, u32 horizontal_index = axis::x, u32 vertical_index = axis::z, bool flip_winding = false,
-				  v3 offset = { -.5f, 0.f, -0.5f }, v2 u_range = { 0.f, 1.f }, v2 v_range = { 0.f, 1.f })
+				  v3 offset = { -0.5f, 0.f, -0.5f }, v2 u_range = { 0.f, 1.f }, v2 v_range = { 0.f, 1.f })
 {
 	assert(horizontal_index < 3 && vertical_index < 3);
 	assert(horizontal_index != vertical_index);
@@ -152,8 +152,8 @@ void CreatePrimitiveMesh(scene_data* data, primitive_init_info* info)
 	creators[info->type](scene, *info);
 
 	data->settings.calculate_normals = 1;
-	//process_scene(scene, data->settings);
-	//pack_data(scene, *data);
+	process_scene(scene, data->settings);
+	pack_data(scene, *data);
 }
 
 }

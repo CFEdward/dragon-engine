@@ -60,7 +60,7 @@ namespace DragonEditor.Content
             }
 
             var geometry = new Geometry();
-            ContentToolsAPI.CreatePrimitiveMesh(geometry, info);
+            ContentToolsAPI.CreatePrimitveMesh(geometry, info);
             (DataContext as GeometryEditor).SetAsset(geometry);
         }
 

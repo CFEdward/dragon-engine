@@ -68,7 +68,7 @@ namespace DragonEditor.Content
             {
                 if (_indexCount != value)
                 {
-                    value = _indexCount;
+                    _indexCount = value;
                     OnPropertyChanged(nameof(IndexCount));
                 }
             }
@@ -170,7 +170,7 @@ namespace DragonEditor.Content
                 // get number of meshes in this LOD group
                 var numMeshes = reader.ReadInt32();
                 Debug.Assert(numMeshes > 0);
-                List<MeshLOD> lods = ReadMeshLODs(numMeshes, reader);
+                var lods = ReadMeshLODs(numMeshes, reader);
 
                 var lodGroup = new LODGroup() { Name = lodGroupName };
                 lods.ForEach(l => lodGroup.LODs.Add(l));

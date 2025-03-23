@@ -104,7 +104,7 @@ class NumberBox : Control
                 else _multiplier = 0.01;
 
                 var newValue = _originalValue + (d * _multiplier * Multiplier);
-                Value = newValue.ToString("0.#####");
+                Value = newValue.ToString("G5");
                 _valueChanged = true;
             }
         }
