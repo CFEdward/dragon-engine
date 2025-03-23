@@ -32,8 +32,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Resources\PrimitiveMeshView\PlaneTexture.png" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="envdte" Version="17.9.37000" />
       <PackageReference Include="envdte80" Version="17.9.37000" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Resources\PrimitiveMeshView\PlaneTexture.png" />
     </ItemGroup>
 
 </Project>
