@@ -6,6 +6,7 @@
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
+		<XamlDebuggingInformation>True</XamlDebuggingInformation>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<BaseOutputPath>..\x64\</BaseOutputPath>
 	<Configurations>DebugEditor;ReleaseEditor</Configurations>
