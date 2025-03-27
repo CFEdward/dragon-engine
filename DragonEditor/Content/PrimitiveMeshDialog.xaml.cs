@@ -1,7 +1,10 @@
 ﻿using DragonEditor.ContentToolsAPIStructs;
 using DragonEditor.DllWrappers;
 using DragonEditor.Editors;
+using DragonEditor.GameProject;
 using DragonEditor.Utilities.Controls;
+using Microsoft.Win32;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -128,6 +131,23 @@ namespace DragonEditor.Content
             foreach (var mesh in vm.MeshRenderer.Meshes)
             {
                 mesh.Diffuse = brush;
+            }
+        }
+
+        private void OnSave_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog()
+            {
+                InitialDirectory = Project.Current.ContentPath,
+                Filter = "Assetfile (*.asset)|*.asset"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                Debug.Assert(!string.IsNullOrEmpty(dlg.FileName));
+                var asset = (DataContext as IAssetEditor).Asset;
+                Debug.Assert(asset != null);
+                asset.Save(dlg.FileName);
             }
         }
     }
