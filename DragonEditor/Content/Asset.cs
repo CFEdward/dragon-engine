@@ -30,6 +30,7 @@ namespace DragonEditor.Content
         {
             var id = Guid.ToByteArray();
             var importDate = DateTime.Now.ToBinary();
+
             writer.BaseStream.Position = 0;
 
             writer.Write((int)Type);

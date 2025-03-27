@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
@@ -43,7 +44,8 @@ namespace DragonEditor
 
         public static string SanitizeFileName(string name)
         {
-            var path = new StringBuilder(name.Substring(0, name.LastIndexOf(Path.DirectorySeparatorChar) + 1));
+            Debug.Assert(!string.IsNullOrEmpty(name));
+            var path = new StringBuilder(name[..(name.LastIndexOf(Path.DirectorySeparatorChar) + 1)]);
             var file = new StringBuilder(name[(name.LastIndexOf(Path.DirectorySeparatorChar) + 1)..]);
             foreach (var c in Path.GetInvalidPathChars())
             {

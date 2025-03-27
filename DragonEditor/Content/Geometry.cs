@@ -3,6 +3,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DragonEditor.Content
 {
@@ -218,12 +221,22 @@ namespace DragonEditor.Content
 
         public GeometryImportSettings()
         {
-            SmoothingAngle = 178f;
             CalculateNormals = false;
             CalculateTangents = false;
+            SmoothingAngle = 178f;
             ReverseHandedness = false;
             ImportEmbeddedTextures = true;
             ImportAnimations = true;
+        }
+
+        public void ToBinary(BinaryWriter writer)
+        {
+            writer.Write(CalculateNormals);
+            writer.Write(CalculateTangents);
+            writer.Write(SmoothingAngle);
+            writer.Write(ReverseHandedness);
+            writer.Write(ImportEmbeddedTextures);
+            writer.Write(ImportAnimations);
         }
     }
 
@@ -351,7 +364,7 @@ namespace DragonEditor.Content
                 {
                     Debug.Assert(lodGroup.LODs.Any());
                     // Use the name of the most detailed LOD for file name
-                    var meshFileName = ContentHelper.SanitizeFileName(path + fileName + "_" + lodGroup.LODs[0].Name + AssetFileExtension);
+                    var meshFileName = ContentHelper.SanitizeFileName(path + fileName + "_" + lodGroup.LODs[0].Name) + AssetFileExtension;
                     // NOTE: we have to make a different id for each new asset file
                     Guid = Guid.NewGuid();
                     byte[] data = null;
@@ -368,8 +381,21 @@ namespace DragonEditor.Content
 
                         Hash = ContentHelper.ComputeHash(hashes.ToArray());
                         data = (writer.BaseStream as MemoryStream).ToArray();
-                        //Icon = GenerateIcon(lodGroup.LODs[0]);
+                        Icon = GenerateIcon(lodGroup.LODs[0]);
                     }
+
+                    Debug.Assert(data?.Length > 0);
+
+                    using (var writer = new BinaryWriter(File.Open(meshFileName, FileMode.Create, FileAccess.Write)))
+                    {
+                        WriteAssetFileHeader(writer);
+                        ImportSettings.ToBinary(writer);
+                        writer.Write(data.Length);
+                        writer.Write(data);
+                    }
+
+                    Logger.Log(MessageType.Info, $"Saved geometry to {meshFileName}");
+                    savedFiles.Add(meshFileName);
                 }
             }
             catch (Exception ex)
@@ -403,6 +429,30 @@ namespace DragonEditor.Content
             Debug.Assert(meshDataSize > 0);
             var buffer = (writer.BaseStream as MemoryStream).ToArray();
             hash = ContentHelper.ComputeHash(buffer, (int)meshDataBegin, (int)meshDataSize);
+        }
+
+        private byte[] GenerateIcon(MeshLOD lod)
+        {
+            var width = 90 * 4;
+
+            BitmapSource bmp = null;
+            // NOTE: it's not good practice to use a WPF control (view) in the ViewModel.
+            //       But we need to make an exception for this case, for as long as we don't
+            //       have a graphics renderer that we can use for screenshots
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                bmp = Editors.GeometryView.RenderToBitmap(new Editors.MeshRenderer(lod, null), width, width);
+                bmp = new TransformedBitmap(bmp, new ScaleTransform(0.25, 0.25, 0.5, 0.5));
+            });
+
+            using var memStream = new MemoryStream();
+            memStream.SetLength(0);
+
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bmp));
+            encoder.Save(memStream);
+
+            return memStream.ToArray();
         }
 
         public Geometry() : base(AssetType.Mesh) { }

@@ -139,7 +139,7 @@ namespace DragonEditor.Content
             var dlg = new SaveFileDialog()
             {
                 InitialDirectory = Project.Current.ContentPath,
-                Filter = "Assetfile (*.asset)|*.asset"
+                Filter = "Asset file (*.asset)|*.asset"
             };
 
             if (dlg.ShowDialog() == true)
