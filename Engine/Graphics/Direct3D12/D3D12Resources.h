@@ -32,6 +32,7 @@ public:
 
 	bool initialize(u32 capacity, bool is_shader_visible);
 	void release();
+	void process_deferred_free(u32 frame_idx);
 
 	[[nodiscard]]
 	descriptor_handle allocate();
@@ -48,10 +49,11 @@ public:
 
 private:
 
-	ID3D12DescriptorHeap*				_heap;
+	ID3D12DescriptorHeap*				_heap{};
 	D3D12_CPU_DESCRIPTOR_HANDLE			_cpu_start{};
 	D3D12_GPU_DESCRIPTOR_HANDLE			_gpu_start{};
 	std::unique_ptr<u32[]>				_free_handles{};
+	utl::vector<u32>					_deferred_free_indices[frame_buffer_count]{};
 	std::mutex							_mutex{};
 	u32									_capacity{ 0 };
 	u32									_size{ 0 };

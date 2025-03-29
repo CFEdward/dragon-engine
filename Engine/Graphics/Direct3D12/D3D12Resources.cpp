@@ -10,6 +10,7 @@ bool descriptor_heap::initialize(u32 capacity, bool is_shader_visible)
 	std::lock_guard lock{ _mutex };
 	assert(capacity && capacity < D3D12_MAX_SHADER_VISIBLE_DESCRIPTOR_HEAP_SIZE_TIER_2);
 	assert(!(_type == D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER && capacity > D3D12_MAX_SHADER_VISIBLE_SAMPLER_HEAP_SIZE));
+
 	if (_type == D3D12_DESCRIPTOR_HEAP_TYPE_DSV || _type == D3D12_DESCRIPTOR_HEAP_TYPE_RTV)
 	{
 		is_shader_visible = false;
@@ -35,6 +36,7 @@ bool descriptor_heap::initialize(u32 capacity, bool is_shader_visible)
 	_size = 0;
 
 	for (u32 i{ 0 }; i < capacity; ++i) _free_handles[i] = i;
+	DEBUG_OP(for (u32 i{ 0 }; i < frame_buffer_count; ++i) assert(_deferred_free_indices[i].empty()));
 
 	_descriptor_size = device->GetDescriptorHandleIncrementSize(_type);
 	_cpu_start = _heap->GetCPUDescriptorHandleForHeapStart();
@@ -45,7 +47,25 @@ bool descriptor_heap::initialize(u32 capacity, bool is_shader_visible)
 
 void descriptor_heap::release()
 {
+	assert(!_size);
+	core::deferred_release(_heap);
+}
 
+void descriptor_heap::process_deferred_free(u32 frame_idx)
+{
+	std::lock_guard lock{ _mutex };
+	assert(frame_idx < frame_buffer_count);
+
+	utl::vector<u32>& indices{ _deferred_free_indices[frame_idx] };
+	if (!indices.empty())
+	{
+		for (auto index : indices)
+		{
+			--_size;
+			_free_handles[_size] = index;
+		}
+		indices.clear();
+	}
 }
 
 descriptor_handle descriptor_heap::allocate()
@@ -82,6 +102,9 @@ void descriptor_heap::free(descriptor_handle& handle)
 	const u32 index{ (u32)(handle.cpu.ptr - _cpu_start.ptr) / _descriptor_size };
 	assert(handle.index == index);
 
+	const u32 frame_index{ core::current_frame_index() };
+	_deferred_free_indices[frame_index].push_back(index);
+	core::set_deferred_releases_flag();
 	handle = {};
 }
 
