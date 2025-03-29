@@ -51,6 +51,7 @@ public:
 		return;
 
 	_error:
+
 		release();
 	}
 
@@ -303,6 +304,11 @@ void render()
 	// Done recording commands. Now execute commands,
 	// signal and increment the fence value for next frame
 	gfx_command.end_frame();
+}
+
+ID3D12Device10* const device()
+{
+	return main_device;
 }
 
 }
