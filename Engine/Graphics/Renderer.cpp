@@ -34,11 +34,6 @@ void shutdown()
 	gfx.shutdown();
 }
 
-void render()
-{
-	gfx.render();
-}
-
 surface create_surface(platform::window window)
 {
 	return gfx.surface.create(window);

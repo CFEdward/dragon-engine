@@ -18,7 +18,7 @@ bool descriptor_heap::initialize(u32 capacity, bool is_shader_visible)
 
 	release();
 
-	ID3D12Device10* const device{ core::device() };
+	ID3D12Device14* const device{ core::device() };
 	assert(device);
 
 	D3D12_DESCRIPTOR_HEAP_DESC desc{};
