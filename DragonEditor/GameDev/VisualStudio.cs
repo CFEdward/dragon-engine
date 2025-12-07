@@ -13,7 +13,7 @@ static class VisualStudio
     public static bool BuildDone { get; private set; } = true;
 
     private static EnvDTE80.DTE2 _vsInstance = null;
-    private static readonly string _progID = "VisualStudio.DTE.17.0";
+    private static readonly string _progID = "VisualStudio.DTE.18.0";
 
     [DllImport("ole32.dll")]
     private static extern int CreateBindCtx(uint reserved, out IBindCtx ppbc);
