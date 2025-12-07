@@ -8,6 +8,8 @@ class d3d12_surface
 {
 public:
 
+	constexpr static u32 buffer_count{ 3 };
+
 	explicit d3d12_surface(platform::window window)
 		: _window(window)
 	{
@@ -43,7 +45,9 @@ public:
 		return *this;
 	}
 
-#endif
+#else
+	DISABLE_COPY_AND_MOVE(d3d12_surface);
+#endif // USE_STL_VECTOR
 
 	~d3d12_surface() { release(); }
 
@@ -97,7 +101,7 @@ private:
 		o.reset();
 	}
 
-#endif
+#endif // USE_STL_VECTOR
 
 	struct render_target_data
 	{
@@ -106,7 +110,7 @@ private:
 	};
 
 	IDXGISwapChain4*	_swap_chain{ nullptr };
-	render_target_data	_render_target_data[frame_buffer_count]{};
+	render_target_data	_render_target_data[buffer_count]{};
 	platform::window	_window{};
 	mutable u32			_current_bb_index{ 0 };
 	u32					_allow_tearing{ 0 };

@@ -157,21 +157,23 @@ private:
 	u32								_frame_index{ 0 };
 };
 
+using surface_collection = utl::free_list<d3d12_surface>;
+
 ID3D12Device14*				main_device{ nullptr };
 IDXGIFactory7*				dxgi_factory{ nullptr };
 d3d12_command				gfx_command;
-utl::vector<d3d12_surface>	surfaces;
+surface_collection			surfaces;
 
-descriptor_heap			rtv_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_RTV };
-descriptor_heap			dsv_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_DSV };
-descriptor_heap			srv_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV };
-descriptor_heap			uav_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV };
+descriptor_heap				rtv_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_RTV };
+descriptor_heap				dsv_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_DSV };
+descriptor_heap				srv_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV };
+descriptor_heap				uav_desc_heap{ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV };
 
-utl::vector<IUnknown*>	deferred_releases[frame_buffer_count]{};
-u32						deferred_releases_flag[frame_buffer_count]{};
-std::mutex				deferred_releases_mutex{};
+utl::vector<IUnknown*>		deferred_releases[frame_buffer_count]{};
+u32							deferred_releases_flag[frame_buffer_count]{};
+std::mutex					deferred_releases_mutex{};
 
-constexpr DXGI_FORMAT render_target_format{ DXGI_FORMAT_R8G8B8A8_UNORM_SRGB };
+constexpr DXGI_FORMAT		render_target_format{ DXGI_FORMAT_R8G8B8A8_UNORM_SRGB };
 constexpr D3D_FEATURE_LEVEL minimum_feature_level{ D3D_FEATURE_LEVEL_11_0 };
 
 bool failed_init()
@@ -392,8 +394,7 @@ void set_deferred_releases_flag() { deferred_releases_flag[current_frame_index()
 
 surface create_surface(platform::window window)
 {
-	surfaces.emplace_back(window);
-	surface_id id{ (u32)surfaces.size() - 1 };
+	surface_id id{ surfaces.add(window) };
 	surfaces[id].create_swap_chain(dxgi_factory, gfx_command.command_queue(), render_target_format);
 
 	return surface{ id };
@@ -402,14 +403,13 @@ surface create_surface(platform::window window)
 void remove_surface(surface_id id)
 {
 	gfx_command.flush();
-	// TODO: use proper removal of surfaces
 	surfaces[id].~d3d12_surface();
 }
 
 void resize_surface(surface_id id, u32, u32)
 {
 	gfx_command.flush();
-	surfaces[id].resize();
+	surfaces.remove(id);
 }
 
 u32 surface_width(surface_id id)

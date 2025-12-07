@@ -1,18 +1,19 @@
 #pragma once
 
-#define USE_STL_VECTOR 1
+#define USE_STL_VECTOR 0
 #define USE_STL_DEQUE 1
 
 #if USE_STL_VECTOR
 #include <vector>
 #include <algorithm>
+
 namespace dragon::utl {
 
 template<typename T>
 using vector = std::vector<T>;
 
 template<typename T>
-void erase_unordered(std::vector<T>& v, size_t index)
+void erase_unordered(T& v, size_t index)
 {
 	if (v.size() > 1)
 	{
@@ -26,10 +27,23 @@ void erase_unordered(std::vector<T>& v, size_t index)
 }
 
 }
+#else
+#include "Vector.h"
+
+namespace dragon::utl {
+
+template<typename T>
+void erase_unordered(T& v, size_t index)
+{
+	v.erase_unordered(index);
+}
+
+}
 #endif
 
 #if USE_STL_DEQUE
 #include <deque>
+
 namespace dragon::utl {
 
 template<typename T>
