@@ -2,6 +2,7 @@
 #include "..\Components\Entity.h"
 #include "..\Components\Transform.h"
 #include "..\Components\Script.h"
+#include "Graphics\Renderer.h"
 
 #if !defined(SHIPPING)
 
@@ -136,5 +137,12 @@ void unload_game()
 	}
 }
 
+bool load_engine_shaders(std::unique_ptr<u8[]>& shaders, u64& size)
+{
+	auto path = graphics::get_engine_shaders_path();
+
+	return read_file(path, shaders, size);
 }
-#endif
+
+}
+#endif // !defined(SHIPPING)

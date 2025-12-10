@@ -14,6 +14,7 @@
     <ClCompile Include="Graphics\Direct3D12\D3D12Resources.cpp" />
     <ClCompile Include="Graphics\Direct3D12\D3D12Surface.cpp" />
     <ClCompile Include="Graphics\Direct3D12\D3D12Helpers.cpp" />
+    <ClCompile Include="Graphics\Direct3D12\D3D12Shaders.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\CommonHeaders.h" />
@@ -43,5 +44,6 @@
     <ClInclude Include="Utilities\FreeList.h" />
     <ClInclude Include="Utilities\Vector.h" />
     <ClInclude Include="Graphics\Direct3D12\D3D12Helpers.h" />
+    <ClInclude Include="Graphics\Direct3D12\D3D12Shaders.h" />
   </ItemGroup>
 </Project>
