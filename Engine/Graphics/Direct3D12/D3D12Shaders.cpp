@@ -44,6 +44,8 @@ bool load_engine_shaders()
     return result;
 }
 
+} // anonymous namespace
+
 bool initialize()
 {
     return load_engine_shaders();
@@ -65,7 +67,5 @@ D3D12_SHADER_BYTECODE get_engine_shader(engine_shader::id id)
     assert(shader && shader->size);
     return { &shader->byte_code, shader->size };
 }
-
-} // anonymous namespace
 
 }

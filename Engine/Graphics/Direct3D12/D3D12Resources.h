@@ -188,7 +188,7 @@ public:
 	explicit d3d12_depth_buffer(d3d12_texture_init_info info);
 	DISABLE_COPY(d3d12_depth_buffer);
 	
-	constexpr d3d12_depth_buffer(d3d12_depth_buffer&& o)
+	constexpr d3d12_depth_buffer(d3d12_depth_buffer&& o) noexcept
 		: _texture{ std::move(o._texture) }, _dsv{ o._dsv }
 	{
 		o._dsv = {};
