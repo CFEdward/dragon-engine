@@ -33,7 +33,7 @@ component create(init_info info, game_entity::entity entity)
     return component{ transform_id{ entity.get_id() } };
 }
 
-void remove(component c)
+void remove([[maybe_unused]] component c)
 {
     assert(c.is_valid());
 }
